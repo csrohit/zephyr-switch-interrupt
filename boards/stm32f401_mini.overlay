@@ -1,0 +1,14 @@
+
+/ {
+	aliases {
+		csled = &led_custom;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led_custom: led_custom {
+			gpios = <&gpioa 0x00 GPIO_ACTIVE_HIGH>;
+			label = "Custom LED on pin A0";
+		};
+	};
+};

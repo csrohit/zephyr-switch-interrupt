@@ -1,0 +1,20 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.associations": {
+        "zephyr.h": "c",
+        "kernel.h": "c",
+        "device.h": "c",
+        "uart.h": "c",
+        "device_mmio.h": "c",
+        "ring_buffer.h": "c",
+        "mem_stats.h": "c",
+        "usb_device.h": "c",
+        "usb-frame.h": "c"
+    },
+    "cmake.configureEnvironment": {
+        "BOARD": "stm32f401_mini"
+    },
+    "cmake.configureArgs": [
+        "-G\"Unix Makefiles\""
+    ],
+}
