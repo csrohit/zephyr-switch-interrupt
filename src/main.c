@@ -5,7 +5,8 @@
 #include <zephyr/devicetree/gpio.h>
 
 
-static struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED, gpios);
+static struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_NODELABEL(green_led), gpios);
+static struct gpio_dt_spec led_builtin = GPIO_DT_SPEC_GET(DT_NODELABEL(led_builtin), gpios);
 static struct gpio_dt_spec button = GPIO_DT_SPEC_GET(DT_ALIAS(button1), gpios);
 
 static struct gpio_callback button_cb;
@@ -17,13 +18,26 @@ void main(void)
     int ret;
 
     // check if led is ready
-    if (!device_is_ready(led.port))
+    if (!device_is_ready(led_green.port))
     {
         return;
     }
 
     // configure led gpio pin as output and set initial value as Logical Active
-    ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+    ret = gpio_pin_configure_dt(&led_green, GPIO_OUTPUT_ACTIVE);
+    if (ret < 0)
+    {
+        return;
+    }
+
+        // check if led is ready
+    if (!device_is_ready(led_builtin.port))
+    {
+        return;
+    }
+
+    // configure led gpio pin as output and set initial value as Logical Active
+    ret = gpio_pin_configure_dt(&led_builtin, GPIO_OUTPUT_ACTIVE);
     if (ret < 0)
     {
         return;
@@ -57,6 +71,14 @@ void main(void)
 
     // attach callback function to button interrupt
     gpio_add_callback(button.port, &button_cb);
+
+
+    while (1)
+    {
+        gpio_pin_toggle_dt(&led_builtin);
+        k_msleep(1000);
+    }
+    
 }
 
 
@@ -70,5 +92,5 @@ void main(void)
  */
 static gpio_callback_handler_t button_pressed(struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
-  gpio_pin_toggle_dt(&led);
+  gpio_pin_toggle_dt(&led_green);
 }

@@ -10,9 +10,13 @@
 	leds{
 		compatible = "gpio-leds";
 
-		green_led:led-c13{
+		green_led:led_built_in{
 			gpios = <&gpioc 0xd GPIO_ACTIVE_HIGH>;
 			label = "Green LED";
+		};
+		yellow_led:led-a0{
+			gpios = <&gpioa 0x0 GPIO_ACTIVE_HIGH>;
+			label = "Yellow LED connected to pin A0";
 		};
 	};
 };
